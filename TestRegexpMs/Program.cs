@@ -1,12 +1,31 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace TestRegexpMs
 {
-    class Program
+    public static class TestRegexpMs
     {
-        static void Main(string[] args)
+        public static void Main()
         {
-            Console.WriteLine("Hello World!");
+            var input = "capybara,squirrel,chipmunk,porcupine,gopher," +
+                        "beaver,groundhog,hamster,guinea pig,gerbil," +
+                        "chinchilla,prairie dog,mouse,rat";
+            var pattern = @"\G(\w+\s?\w*),?";
+            var match = Regex.Match(input, pattern);
+            while (match.Success)
+            {
+                Console.WriteLine(match.Groups[1].Value);
+                match = match.NextMatch();
+            }
+
+            pattern = @"\G(\(\d\))";
+            input = "(1)(3)(5)[7](9)";
+            match = Regex.Match(input, pattern);
+            while (match.Success)
+            {
+                Console.WriteLine(match.Groups[1].Value);
+                match = match.NextMatch();
+            }
         }
     }
 }
